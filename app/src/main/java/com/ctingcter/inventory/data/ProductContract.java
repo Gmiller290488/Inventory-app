@@ -8,6 +8,9 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  *  API Contract for the Inventory App
  */
@@ -85,5 +88,22 @@ public class ProductContract {
          */
         public final static String COLUMN_PICTURE_ID="picture";
 
+        /**
+         * Supplier of product
+         * Type: STRING
+         */
+        public final static String COLUMN_SUPPLIER ="supplier";
+
+
+        // Returns where or not the price given is valid
+        public static boolean isValidPrice(String price) {
+            final String regExp = "[0-9]+([,.][0-9]{2})?";
+            final Pattern pattern = Pattern.compile(regExp);
+            Matcher matcher = pattern.matcher(price);
+            if (matcher.matches()) {
+                return true;
+            }
+            return false;
+        }
     }
 }
