@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="half_horizontal_padding">4dp</dimen>
+    <dimen name="half_vertical_padding">4dp</dimen>
+    <dimen name="half_horizontal_margin">4dp</dimen>
+    <dimen name="half_vertical_margin">4dp</dimen>
+
+    <dimen name="standard_horizontal_padding">8dp</dimen>
+    <dimen name="standard_vertical_padding">8dp</dimen>
+    <dimen name="standard_horizontal_margin">8dp</dimen>
+    <dimen name="standard_vertical_margin">8dp</dimen>
+
+    <dimen name="standard_plus_horizontal_padding">12dp</dimen>
+    <dimen name="standard_plus_vertical_padding">12dp</dimen>
+    <dimen name="standard_plus_horizontal_margin">12dp</dimen>
+    <dimen name="standard_plus_vertical_margin">12dp</dimen>
+
+    <dimen name="double_horizontal_padding">16dp</dimen>
+    <dimen name="double_vertical_padding">16dp</dimen>
+    <dimen name="double_horizontal_margin">16dp</dimen>
+    <dimen name="double_vertical_margin">16dp</dimen>
+</resources>
