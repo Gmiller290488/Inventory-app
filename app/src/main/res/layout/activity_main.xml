@@ -7,16 +7,8 @@
     android:layout_height="match_parent"
     tools:context="com.ctingcter.inventory.MainActivity">
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/colorPrimary"
-        android:dividerHeight="1dp"
-         />
-
     <TextView
-        android:id="@+id/empty"
+        android:id="@+id/text_view_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"/>

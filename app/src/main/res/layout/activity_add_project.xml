@@ -48,24 +48,35 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Quantity"
+                android:hint="Enter Quantity"
                 android:layout_gravity="center"
-                android:id="@+id/id_quantity_TV" />
+                android:id="@+id/id_quantity_ET" />
 
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Supplier"
+                android:hint="Enter Supplier"
                 android:layout_gravity="center"
-                android:id="@+id/id_supplier_TV" />
+                android:id="@+id/id_supplier_ET" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="£3.40"
+                android:hint="Enter Price"
+                android:layout_gravity="center"
+                android:id="@+id/id_price_ET" />
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sell"
+                android:id="@+id/id_sell_TV"
                     android:layout_gravity="center"/>
 
                     <LinearLayout
@@ -125,7 +136,7 @@
                 <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Enter number"
+                    android:hint="Number"
                     android:id="@+id/id_order_num_ET"/>
 
                 <Button
@@ -138,6 +149,12 @@
 
 
     </LinearLayout>
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Product"
+        android:id="@+id/id_save_btn"/>
     <Button
         android:layout_gravity="center"
         android:layout_width="wrap_content"
