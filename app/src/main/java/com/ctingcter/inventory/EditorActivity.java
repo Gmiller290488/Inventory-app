@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.ctingcter.inventory.data.ProductContract;
 import com.ctingcter.inventory.data.ProductDbHelper;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by CTingCTer on 30/04/2017.
  */
@@ -35,6 +37,7 @@ public class EditorActivity extends AppCompatActivity implements
     private EditText mSupplierEditText;
     private EditText mPriceEditText;
     private ImageView mProductImageView;
+    private View mOrderMoreTV;
 
 
     @Override
@@ -42,6 +45,7 @@ public class EditorActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
+        mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
         // All of the declarations for the EditTexts
         mProductEditText = (EditText) findViewById(R.id.id_product_EV);
         mPriceEditText = (EditText) findViewById(R.id.id_price_ET);
@@ -50,6 +54,28 @@ public class EditorActivity extends AppCompatActivity implements
 
         Button save = (Button) findViewById(R.id.id_save_btn);
         save.setOnClickListener(this);
+
+        Button delete = (Button) findViewById(R.id.id_delete_btn);
+        delete.setOnClickListener(this);
+
+        Button decrementOne = (Button) findViewById(R.id.id_decrement_one_btn);
+        decrementOne.setOnClickListener(this);
+
+        Button decrementTen = (Button) findViewById(R.id.id_decrement_ten_btn);
+        decrementTen.setOnClickListener(this);
+
+        Button incrementOne = (Button) findViewById(R.id.id_increment_one_btn);
+        incrementOne.setOnClickListener(this);
+
+        Button incrementTen = (Button) findViewById(R.id.id_increment_ten_btn);
+        decrementOne.setOnClickListener(this);
+
+        Button order = (Button) findViewById(R.id.id_order_more_btn);
+        order.setOnClickListener(this);
+
+        Button picture = (Button) findViewById(R.id.id_picture_btn);
+        picture.setOnClickListener(this);
+
         // Examine the intent that launched the activity
         // Figure if it's editing product or adding a new one
         Intent intent = getIntent();
@@ -59,6 +85,8 @@ public class EditorActivity extends AppCompatActivity implements
         if (mCurrentProducturi == null) {
             // New product so changed title
             setTitle(getString(R.string.editor_activity_title_new_product));
+            mOrderMoreTV.setVisibility(View.GONE);
+            delete.setVisibility(View.GONE);
 
 
         } else {

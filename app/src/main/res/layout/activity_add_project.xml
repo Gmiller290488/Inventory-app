@@ -23,12 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <Button
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Choose picture"
-                android:id="@+id/id_picture_btn"/>
+
 
         <ImageView
             android:layout_gravity="center"
@@ -41,12 +36,19 @@
             android:layout_marginLeft="@dimen/half_horizontal_margin"
             android:layout_marginRight="@dimen/half_horizontal_margin"/>
 
+            <Button
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Choose picture"
+                android:id="@+id/id_picture_btn"/>
             </RelativeLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
 
             <EditText
                 android:layout_width="wrap_content"
@@ -71,7 +73,11 @@
                 android:hint="Enter Price"
                 android:layout_gravity="center"
                 android:id="@+id/id_price_ET" />
-
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/order_more_TV">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,6 +150,7 @@
                     android:layout_height="wrap_content"
                     android:text="Order"
                     android:id="@+id/id_order_more_btn"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
