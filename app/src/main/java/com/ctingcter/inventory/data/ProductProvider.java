@@ -19,10 +19,10 @@ public class ProductProvider extends ContentProvider {
     /** Tag for the log messages */
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
-    /** URI matcher code for the content URI for the pets table */
+    /** URI matcher code for the content URI for the products table */
     private static final int PRODUCTS = 100;
 
-    /** URI matcher code for the content URI for a single pet in the pets table */
+    /** URI matcher code for the content URI for a single product in the products table */
     private static final int PRODUCT_ID = 101;
 
     /**
