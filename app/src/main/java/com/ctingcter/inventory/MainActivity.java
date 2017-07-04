@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ctingcter.inventory.data.ProductContract;
-import com.ctingcter.inventory.data.ProductDbHelper;
 
 import java.net.URI;
 
@@ -28,7 +27,6 @@ import static com.ctingcter.inventory.data.ProductContract.ProductEntry.TABLE_NA
 
 public class MainActivity extends AppCompatActivity  {
 
-    private ProductDbHelper mDbHelper;
     private TextView mEmptyStateTextView;
 
     @Override
@@ -52,9 +50,6 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
-
-        mDbHelper = new ProductDbHelper(this);
-
     }
 
         @Override
@@ -143,7 +138,6 @@ public class MainActivity extends AppCompatActivity  {
 
     private void insertProduct() {
 
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
         // Create a ContentValues object where column names are the keys
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, "Sirloin Steak");
@@ -152,12 +146,13 @@ public class MainActivity extends AppCompatActivity  {
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, "British Premier Meats");
         values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, "@drawable/placeholder");
 
-        long newRowId = db.insert(TABLE_NAME, null, values);
+        Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
+
     }
 
     private void deleteAllProducts() {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.delete(TABLE_NAME, null, null);
+       // SQLiteDatabase db = mDbHelper.getWritableDatabase();
+      //  db.delete(TABLE_NAME, null, null);
 
     }
 

@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * {@link ContentProvider} for Pets app.
@@ -85,8 +86,31 @@ public class ProductProvider extends ContentProvider {
      */
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch(match) {
+            case PRODUCTS:
+                return insertProduct(uri, contentValues);
+            default:
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
+        }
     }
+
+    private Uri insertProduct(Uri uri, ContentValues values) {
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        //Insert the product with given values
+        long id = database.insert(ProductEntry.TABLE_NAME, null, values);
+
+        // If the ID is -1 then inspection failed. Log an error and reutnr null.
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+        // return new URI with the ID of the newly inserted row appended at the end
+        return ContentUris.withAppendedId(uri, id);
+    }
+
+
 
     /**
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
