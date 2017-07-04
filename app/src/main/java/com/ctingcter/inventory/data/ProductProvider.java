@@ -186,8 +186,6 @@ public class ProductProvider extends ContentProvider {
         return database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
     }
 
-
-
     /**
      * Delete the data at the given selection and selection arguments.
      */

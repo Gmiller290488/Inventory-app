@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void deleteAllProducts() {
-       // SQLiteDatabase db = mDbHelper.getWritableDatabase();
-      //  db.delete(TABLE_NAME, null, null);
+       int rowsDeleted = getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
+        Log.v("MainActivity", rowsDeleted + " rows deleted from product database");
 
     }
 
