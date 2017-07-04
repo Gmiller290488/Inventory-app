@@ -118,12 +118,6 @@ public class EditorActivity extends AppCompatActivity implements
         }
         int price = Integer.parseInt(priceString);
 
-        // Create Database helper
-        ProductDbHelper mDbHelper = new ProductDbHelper(this);
-
-        // Gets the database in write mode
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
          //Create a ContentValues object where column names are the keys,
         // and pet attributes from the editor are the values.
         ContentValues values = new ContentValues();
@@ -132,16 +126,16 @@ public class EditorActivity extends AppCompatActivity implements
         values.put(ProductContract.ProductEntry.COLUMN_PRICE, price);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, supplierString);
 
-       //  Insert a new row for pet in the database, returning the ID of that new row.
-        long newRowId = db.insert(ProductContract.ProductEntry.TABLE_NAME, null, values);
+       // Insert new product into the provider and return the content URI for the new Product
+        Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
        //  Show a toast message depending on whether or not the insertion was successful
-        if (newRowId == -1) {
-         //    If the row ID is -1, then there was an error with insertion.
+        if (newUri == null) {
+         //    If the newUri is null, then there was an error with insertion.
             Toast.makeText(this, "Error with saving product", Toast.LENGTH_SHORT).show();
         } else {
-       //      Otherwise, the insertion was successful and we can display a toast with the row ID.
-            Toast.makeText(this, "Product saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+       //      Otherwise, the insertion was successful and we can display a toast.
+            Toast.makeText(this, "Product saved", Toast.LENGTH_SHORT).show();
        }
 
     }
