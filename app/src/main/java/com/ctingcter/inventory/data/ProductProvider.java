@@ -98,6 +98,8 @@ public class ProductProvider extends ContentProvider {
     private Uri insertProduct(Uri uri, ContentValues values) {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
+        database = mDbHelper.getWritableDatabase();
+
         //Insert the product with given values
         long id = database.insert(ProductEntry.TABLE_NAME, null, values);
 

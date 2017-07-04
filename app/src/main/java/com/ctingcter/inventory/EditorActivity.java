@@ -101,18 +101,21 @@ public class EditorActivity extends AppCompatActivity implements
             Toast.makeText(this, "Please enter the product name", Toast.LENGTH_SHORT).show();
             return;
         }
+          String quantityString = mQuantityeditText.getText().toString().trim();
+        if (quantityString.matches("")){
+            quantityString = "0";
+        }
+        int quantity = Integer.parseInt(quantityString);
+
+
         String supplierString = mSupplierEditText.getText().toString().trim();
         if (supplierString.matches("")){
             Toast.makeText(this, "Please enter the supplier name", Toast.LENGTH_SHORT).show();
             return;
         }
-        String quantityString = mQuantityeditText.getText().toString().trim();
-        if (quantityString.matches("")){
-            quantityString = "0";
-        }
-        int quantity = Integer.parseInt(quantityString);
+
         String priceString = mPriceEditText.getText().toString().trim();
-        if (titleString.matches("")){
+        if (priceString.matches("")){
             Toast.makeText(this, "Please enter the price", Toast.LENGTH_SHORT).show();
             return;
         }
