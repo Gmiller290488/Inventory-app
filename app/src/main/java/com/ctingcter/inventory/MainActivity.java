@@ -69,16 +69,6 @@ public class MainActivity extends AppCompatActivity  {
                     ProductContract.ProductEntry.COLUMN_QUANTITY,
                     ProductContract.ProductEntry.COLUMN_PRICE};
 
-            // Perform a query on the pets table
-//            Cursor cursor = db.query(
-//                    TABLE_NAME,   // The table to query
-//                    projection,            // The columns to return
-//                    null,                  // The columns for the WHERE clause
-//                    null,                  // The values for the WHERE clause
-//                    null,                  // Don't group the rows
-//                    null,                  // Don't filter by row groups
-//                    null);                   // The sort order
-
             Cursor cursor = getContentResolver().query(
                     ProductContract.ProductEntry.CONTENT_URI,
                     projection,
@@ -86,54 +76,15 @@ public class MainActivity extends AppCompatActivity  {
                     null,
                     null);
 
-            TextView displayView = (TextView) findViewById(R.id.text_view_product);
+             ListView productListView = (ListView) findViewById(R.id.list);
 
-            try {
-                // Create a header in the Text View that looks like this:
-                //
-                // The pets table contains <number of rows in Cursor> pets.
-                // _id - name - breed - gender - weight
-                //
-                // In the while loop below, iterate through the rows of the cursor and display
-                // the information from each column in this order.
-                displayView.setText("The products table contains " + cursor.getCount() + " products.\n\n");
-                displayView.append(ProductContract.ProductEntry._ID + " - " +
-                        ProductContract.ProductEntry.COLUMN_PRODUCT_NAME + " - " +
-                        ProductContract.ProductEntry.COLUMN_QUANTITY + " - " +
-                        ProductContract.ProductEntry.COLUMN_PRICE + "\n");
+            View emptyView = findViewById(R.id.empty_view);
+            productListView.setEmptyView(emptyView);
 
-                // Figure out the index of each column
-                int idColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry._ID);
-                int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
-                int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
-                int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE);
+            ProductCursorAdapter adapter = new ProductCursorAdapter(this, cursor);
 
-                // Iterate through all the returned rows in the cursor
-                while (cursor.moveToNext()) {
-                    // Use that index to extract the String or Int value of the word
-                    // at the current row the cursor is on.
-                    int currentID = cursor.getInt(idColumnIndex);
-                    String currentName = cursor.getString(nameColumnIndex);
-                    String currentQuantity = cursor.getString(quantityColumnIndex);
-                    String currentPrice = cursor.getString(priceColumnIndex);
-                    // Display the values from each column of the current row in the cursor in the TextView
-                    displayView.append(("\n" + currentID + " - " +
-                            currentName + " - " +
-                            currentQuantity + " - " +
-                            currentPrice));
-                }
-            } finally {
-                // this hides the empty table display But I need to change it as it doesnt work
-                mEmptyStateTextView.setText("");
-                // Always close the cursor when you're done reading from it. This releases all its
-                // resources and makes it invalid.
-                cursor.close();
-            }
+            productListView.setAdapter(adapter);
         }
-
-
-
-
 
 
     private void insertProduct() {

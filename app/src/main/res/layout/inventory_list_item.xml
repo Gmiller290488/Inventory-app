@@ -10,13 +10,24 @@
         android:layout_height="?android:listPreferredItemHeight"
         android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="match_parent"
+            android:layout_weight="2">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             tools:text="Product Name"
             android:id="@+id/id_product_TV"/>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/id_product_image"
+                android:src="@drawable/placeholder"/>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
