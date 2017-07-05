@@ -78,6 +78,9 @@ public class ProductProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
         return cursor;
     }
 
@@ -108,6 +111,8 @@ public class ProductProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for " + uri);
             return null;
         }
+
+        getContext().getContentResolver().notifyChange(uri, null);
         // return new URI with the ID of the newly inserted row appended at the end
         return ContentUris.withAppendedId(uri, id);
     }
@@ -120,6 +125,7 @@ public class ProductProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS:
+                getContext().getContentResolver().notifyChange(uri, null);
                 return updateProduct(uri, contentValues, selection, selectionArgs);
             case PRODUCT_ID:
                 // For the PRODUCT_ID code, extract out the ID from the URI,
@@ -127,6 +133,7 @@ public class ProductProvider extends ContentProvider {
                 // arguments will be a String array containing the actual ID.
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                getContext().getContentResolver().notifyChange(uri, null);
                 return updateProduct(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -182,6 +189,7 @@ public class ProductProvider extends ContentProvider {
         // Otherwise, get writeable database to update the data
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
+        getContext().getContentResolver().notifyChange(uri, null);
         // Returns the number of database rows affected by the update statement
         return database.update(ProductEntry.TABLE_NAME, values, selection, selectionArgs);
     }
@@ -197,10 +205,12 @@ public class ProductProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case PRODUCTS:
+                getContext().getContentResolver().notifyChange(uri, null);
                 return database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
             case PRODUCT_ID:
                 selection = ProductEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                getContext().getContentResolver().notifyChange(uri, null);
                 return database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);

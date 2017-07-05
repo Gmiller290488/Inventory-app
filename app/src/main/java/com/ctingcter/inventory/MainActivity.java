@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.widget.SimpleCursorAdapter;
 
 import com.ctingcter.inventory.data.ProductContract;
 
@@ -25,9 +26,13 @@ import java.net.URI;
 
 import static com.ctingcter.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
 
     private TextView mEmptyStateTextView;
+    private static final int PRODUCT_LOADER = 0;
+    private static final int EXISTING_PRODUCT_LOADER = 0;
+
+    ProductCursorAdapter mCursorAdapter;
 
     @Override
     public View findViewById(@IdRes int id) {
@@ -50,41 +55,20 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        ListView productListView = (ListView) findViewById(R.id.list);
+
+        View emptyView = findViewById(R.id.empty_view);
+        productListView.setEmptyView(emptyView);
+
+        mCursorAdapter = new ProductCursorAdapter(this, null);
+        productListView.setAdapter(mCursorAdapter);
+
+        getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+
     }
 
-        @Override
-        protected void onStart() {
-            super.onStart();
-            displayDatabaseInfo();
-        }
 
-        private void displayDatabaseInfo() {
-
-
-            // Define a projection that specifies which columns from the database
-            // you will actually use after this query.
-            String[] projection = {
-                    ProductContract.ProductEntry._ID,
-                    ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
-                    ProductContract.ProductEntry.COLUMN_QUANTITY,
-                    ProductContract.ProductEntry.COLUMN_PRICE};
-
-            Cursor cursor = getContentResolver().query(
-                    ProductContract.ProductEntry.CONTENT_URI,
-                    projection,
-                    null,
-                    null,
-                    null);
-
-             ListView productListView = (ListView) findViewById(R.id.list);
-
-            View emptyView = findViewById(R.id.empty_view);
-            productListView.setEmptyView(emptyView);
-
-            ProductCursorAdapter adapter = new ProductCursorAdapter(this, cursor);
-
-            productListView.setAdapter(adapter);
-        }
 
 
     private void insertProduct() {
@@ -122,15 +106,45 @@ public class MainActivity extends AppCompatActivity  {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertProduct();
-                displayDatabaseInfo();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 deleteAllProducts();
-                displayDatabaseInfo();
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        // Define a projection thath specifies the colums from the table that we care about
+        String[] projection = {
+                ProductContract.ProductEntry._ID,
+                ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductContract.ProductEntry.COLUMN_PRICE,
+                ProductContract.ProductEntry.COLUMN_SUPPLIER,
+                ProductContract.ProductEntry.COLUMN_QUANTITY,
+                ProductContract.ProductEntry.COLUMN_PICTURE_ID };
+
+        // This loader will execute the ContentProvider's query method on a background thread.
+        return new CursorLoader(this,                       // Parent activity context
+                ProductContract.ProductEntry.CONTENT_URI,   // Provider content URI to query
+                projection,                                 // Columns to include in cursor
+                null,                                       // No selection cause
+                null,                                       // No selection arguments
+                null);                                      // Default sort order
+    }
+
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+    }
 }

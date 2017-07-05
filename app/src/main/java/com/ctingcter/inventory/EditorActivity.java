@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -26,10 +27,12 @@ import org.w3c.dom.Text;
  * Created by CTingCTer on 30/04/2017.
  */
 
-public class EditorActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
+public class EditorActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int PRODUCT_LOADER = 0;
     private static final int EXISTING_PRODUCT_LOADER = 0;
+
+    ProductCursorAdapter mCursorAdapter;
 
     private Uri mCurrentProducturi;
     private EditText mProductEditText;
@@ -143,23 +146,6 @@ public class EditorActivity extends AppCompatActivity implements
 
     }
 
-
-
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
 
     @Override
     public void onClick(View v) {
