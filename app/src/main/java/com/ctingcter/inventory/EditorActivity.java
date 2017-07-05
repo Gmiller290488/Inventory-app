@@ -34,6 +34,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
     ProductCursorAdapter mCursorAdapter;
 
+    private Button mDeleteButton;
     private Uri mCurrentProducturi;
     private EditText mProductEditText;
     private EditText mQuantityeditText;
@@ -48,12 +49,17 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
+        Intent intent = getIntent();
+        Uri currentPetUri = intent.getData();
+
         mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
         // All of the declarations for the EditTexts
         mProductEditText = (EditText) findViewById(R.id.id_product_EV);
         mPriceEditText = (EditText) findViewById(R.id.id_price_ET);
         mQuantityeditText = (EditText) findViewById(R.id.id_quantity_ET);
         mSupplierEditText = (EditText) findViewById(R.id.id_supplier_ET);
+
+        View ordering = (View) findViewById(R.id.order_more_TV);
 
         Button save = (Button) findViewById(R.id.id_save_btn);
         save.setOnClickListener(this);
@@ -79,22 +85,17 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         Button picture = (Button) findViewById(R.id.id_picture_btn);
         picture.setOnClickListener(this);
 
-        // Examine the intent that launched the activity
-        // Figure if it's editing product or adding a new one
-        Intent intent = getIntent();
-        mCurrentProducturi = intent.getData();
-
-        // If the intent DOESN'T contain a product URI, then we are adding a NEW product
-        if (mCurrentProducturi == null) {
-            // New product so changed title
+        if (currentPetUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
-            mOrderMoreTV.setVisibility(View.GONE);
+            // mDeleteButton.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
+            ordering.setVisibility(View.GONE);
 
 
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_product));
         }
+
     }
 
 
