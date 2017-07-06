@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private TextView mEmptyStateTextView;
     private static final int PRODUCT_LOADER = 0;
-    private static final int EXISTING_PRODUCT_LOADER = 0;
 
     ProductCursorAdapter mCursorAdapter;
 

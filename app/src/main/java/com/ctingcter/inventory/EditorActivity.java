@@ -3,45 +3,36 @@ package com.ctingcter.inventory;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ctingcter.inventory.data.ProductContract;
-import com.ctingcter.inventory.data.ProductDbHelper;
 
-import org.w3c.dom.Text;
+import com.ctingcter.inventory.data.ProductContract;
 
 /**
  * Created by CTingCTer on 30/04/2017.
  */
 
-public class EditorActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditorActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final int PRODUCT_LOADER = 0;
     private static final int EXISTING_PRODUCT_LOADER = 0;
-
-    ProductCursorAdapter mCursorAdapter;
-
     private Button mDeleteButton;
-    private Uri mCurrentProducturi;
     private EditText mProductEditText;
     private EditText mQuantityeditText;
     private EditText mSupplierEditText;
     private EditText mPriceEditText;
     private ImageView mProductImageView;
     private View mOrderMoreTV;
+    private Uri mCurrentProductUri;
 
 
     @Override
@@ -49,10 +40,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
-        Intent intent = getIntent();
-        Uri currentPetUri = intent.getData();
-
-        mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
+         mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
         // All of the declarations for the EditTexts
         mProductEditText = (EditText) findViewById(R.id.id_product_EV);
         mPriceEditText = (EditText) findViewById(R.id.id_price_ET);
@@ -85,15 +73,16 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         Button picture = (Button) findViewById(R.id.id_picture_btn);
         picture.setOnClickListener(this);
 
-        if (currentPetUri == null) {
+        Intent intent = getIntent();
+        mCurrentProductUri = intent.getData();
+
+        if (mCurrentProductUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
-            // mDeleteButton.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
             ordering.setVisibility(View.GONE);
-
-
         } else {
             setTitle(getString(R.string.editor_activity_title_edit_product));
+            getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
     }
@@ -156,4 +145,64 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 insertProduct();
         }
     }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = {
+                ProductContract.ProductEntry._ID,
+                ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductContract.ProductEntry.COLUMN_PRICE,
+                ProductContract.ProductEntry.COLUMN_SUPPLIER,
+                ProductContract.ProductEntry.COLUMN_QUANTITY,
+                ProductContract.ProductEntry.COLUMN_PICTURE_ID };
+
+        // This loader will execute the ContentProvider's query method on a background thread.
+        return new CursorLoader(this,                       // Parent activity context
+                mCurrentProductUri,                         // Provider content URI to query
+                projection,                                 // Columns to include in cursor
+                null,                                       // No selection cause
+                null,                                       // No selection arguments
+                null);                                      // Default sort order
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor == null || cursor.getCount() < 1) {
+            return;
+        }
+
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
+            int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE);
+            int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
+            int supplierColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SUPPLIER);
+            //int pictureColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PICTURE_ID);
+
+            String name = cursor.getString(nameColumnIndex);
+            String price = cursor.getString(priceColumnIndex);
+            String quantity = cursor.getString(quantityColumnIndex);
+            String supplier = cursor.getString(supplierColumnIndex);
+            // Need to implmenet picture
+
+            mProductEditText.setText(name);
+            mPriceEditText.setText(price);
+            mQuantityeditText.setText(quantity);
+            mSupplierEditText.setText(supplier);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mProductEditText.setText("");
+        mPriceEditText.setText("");
+        mQuantityeditText.setText("");
+        mSupplierEditText.setText("");
+    }
+
 }
+
+
+
+
+
