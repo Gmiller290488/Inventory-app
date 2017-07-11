@@ -12,6 +12,7 @@ import android.content.Loader;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 
 import com.ctingcter.inventory.data.ProductContract;
 
+import static com.ctingcter.inventory.R.id.id_decrement_one_btn;
+
 /**
  * Created by CTingCTer on 30/04/2017.
  */
@@ -31,6 +34,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final int EXISTING_PRODUCT_LOADER = 0;
     private Button mDeleteButton;
+    private Button mDecrementOne;
     private EditText mProductEditText;
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
@@ -39,6 +43,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private View mOrderMoreTV;
     private Uri mCurrentProductUri;
     private boolean mProductHasChanged = false;
+    int quantity;
 
 
     @Override
@@ -46,7 +51,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_project);
 
-
+        mDecrementOne = (Button) findViewById(R.id.id_decrement_one_btn);
         mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
         // All of the declarations for the EditTexts
         mProductEditText = (EditText) findViewById(R.id.id_product_EV);
@@ -66,7 +71,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         Button delete = (Button) findViewById(R.id.id_delete_btn);
         delete.setOnClickListener(this);
 
-        Button decrementOne = (Button) findViewById(R.id.id_decrement_one_btn);
+        Button decrementOne = (Button) findViewById(id_decrement_one_btn);
         decrementOne.setOnClickListener(this);
 
         Button decrementTen = (Button) findViewById(R.id.id_decrement_ten_btn);
@@ -86,6 +91,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
+
+
 
         if (mCurrentProductUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
@@ -187,8 +194,19 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.id_save_btn:
                 saveProduct();
-            case  R.id.id_delete_btn:
+            case R.id.id_delete_btn:
                 showDeleteConfirmationDialog();
+            case R.id.id_decrement_one_btn:
+                String quantityString = mQuantityEditText.getText().toString().trim();
+                int quantity = Integer.parseInt(quantityString);
+                if (quantity >= 1) {
+                    quantity--;
+                    quantityString = Integer.toString(quantity);
+                    mQuantityEditText.setText(quantityString);
+                }
+                else {
+                    mDecrementOne.setVisibility(View.GONE);
+                }
         }
     }
 
