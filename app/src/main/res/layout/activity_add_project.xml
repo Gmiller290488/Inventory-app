@@ -148,7 +148,7 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Order"
+                    android:text="Call"
                     android:id="@+id/id_order_more_btn"/>
                 </LinearLayout>
             </LinearLayout>

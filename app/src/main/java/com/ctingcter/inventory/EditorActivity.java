@@ -42,6 +42,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
     private EditText mPriceEditText;
+    private EditText mPhoneNumber;
     private ImageView mProductImageView;
     private View mOrderMoreTV;
     private Uri mCurrentProductUri;
@@ -64,6 +65,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mPriceEditText = (EditText) findViewById(R.id.id_price_ET);
         mQuantityEditText = (EditText) findViewById(R.id.id_quantity_ET);
         mSupplierEditText = (EditText) findViewById(R.id.id_supplier_ET);
+        mPhoneNumber = (EditText) findViewById(R.id.id_order_num_ET);
 
         mProductEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
@@ -260,8 +262,15 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 mDecrementOne.setVisibility(View.VISIBLE);
                 quantityString = Integer.toString(quantity);
                 mQuantityEditText.setText(quantityString);
+                return;
 
+            case R.id.id_order_more_btn:
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                String number = mPhoneNumber.getText().toString().trim();
+                intent.setData(Uri.parse("tel:" + number));
+                startActivity(intent);
         }
+
     }
 
 
