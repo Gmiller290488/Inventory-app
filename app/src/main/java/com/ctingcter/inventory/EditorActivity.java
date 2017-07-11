@@ -35,6 +35,9 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private static final int EXISTING_PRODUCT_LOADER = 0;
     private Button mDeleteButton;
     private Button mDecrementOne;
+    private Button mDecrementTen;
+    private Button mIncrementTen;
+    private Button mIncrementOne;
     private EditText mProductEditText;
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
@@ -52,6 +55,9 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_add_project);
 
         mDecrementOne = (Button) findViewById(R.id.id_decrement_one_btn);
+        mDecrementTen = (Button) findViewById(R.id.id_decrement_ten_btn);
+        mIncrementOne = (Button) findViewById(R.id.id_increment_one_btn);
+        mIncrementTen = (Button) findViewById(R.id.id_increment_ten_btn);
         mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
         // All of the declarations for the EditTexts
         mProductEditText = (EditText) findViewById(R.id.id_product_EV);
@@ -81,7 +87,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         incrementOne.setOnClickListener(this);
 
         Button incrementTen = (Button) findViewById(R.id.id_increment_ten_btn);
-        decrementOne.setOnClickListener(this);
+        incrementTen.setOnClickListener(this);
 
         Button order = (Button) findViewById(R.id.id_order_more_btn);
         order.setOnClickListener(this);
@@ -194,21 +200,70 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.id_save_btn:
                 saveProduct();
+                return;
+
             case R.id.id_delete_btn:
                 showDeleteConfirmationDialog();
+                return;
+
             case R.id.id_decrement_one_btn:
                 String quantityString = mQuantityEditText.getText().toString().trim();
                 int quantity = Integer.parseInt(quantityString);
                 if (quantity >= 1) {
                     quantity--;
+                    if (quantity < 10) {
+                        mDecrementTen.setVisibility(View.GONE);
+                    }
                     quantityString = Integer.toString(quantity);
                     mQuantityEditText.setText(quantityString);
-                }
-                else {
+                } else {
                     mDecrementOne.setVisibility(View.GONE);
                 }
+                return;
+
+            case R.id.id_decrement_ten_btn:
+                quantityString = mQuantityEditText.getText().toString().trim();
+                quantity = Integer.parseInt(quantityString);
+                if (quantity >= 10) {
+                    quantity = quantity - 10;
+                    if (quantity < 10) {
+                        mDecrementTen.setVisibility(View.GONE);
+                    }
+                    if (quantity < 1) {
+                        mDecrementOne.setVisibility(View.GONE);
+                    }
+                    quantityString = Integer.toString(quantity);
+                    mQuantityEditText.setText(quantityString);
+                } else {
+                    mDecrementTen.setVisibility(View.GONE);
+                }
+                return;
+
+            case R.id.id_increment_one_btn:
+                quantityString = mQuantityEditText.getText().toString().trim();
+                quantity = Integer.parseInt(quantityString);
+                quantity++;
+                if (quantity > 9) {
+                    mDecrementTen.setVisibility(View.VISIBLE);
+                }
+                    mDecrementOne.setVisibility(View.VISIBLE);
+
+                quantityString = Integer.toString(quantity);
+                mQuantityEditText.setText(quantityString);
+                return;
+
+            case R.id.id_increment_ten_btn:
+                quantityString = mQuantityEditText.getText().toString().trim();
+                quantity = Integer.parseInt(quantityString);
+                quantity = quantity + 10;
+                mDecrementTen.setVisibility(View.VISIBLE);
+                mDecrementOne.setVisibility(View.VISIBLE);
+                quantityString = Integer.toString(quantity);
+                mQuantityEditText.setText(quantityString);
+
         }
     }
+
 
 
     @Override
@@ -253,6 +308,15 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             mPriceEditText.setText(price);
             mQuantityEditText.setText(quantity);
             mSupplierEditText.setText(supplier);
+
+            if (Integer.parseInt(quantity) < 10) {
+                mDecrementTen.setVisibility(View.GONE);
+            }
+            if (Integer.parseInt(quantity) == 0) {
+                mDecrementOne.setVisibility(View.GONE);
+            }
+
+
         }
     }
 
