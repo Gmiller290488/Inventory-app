@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ProductContract.ProductEntry.COLUMN_PRICE, "£3.99");
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, "British Premier Meats");
         values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, "@drawable/placeholder");
+        values.put(ProductContract.ProductEntry.COLUMN_PHONE, "01613718991");
 
         Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
@@ -141,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 ProductContract.ProductEntry.COLUMN_PRICE,
                 ProductContract.ProductEntry.COLUMN_SUPPLIER,
                 ProductContract.ProductEntry.COLUMN_QUANTITY,
-                ProductContract.ProductEntry.COLUMN_PICTURE_ID };
+                ProductContract.ProductEntry.COLUMN_PHONE,
+                ProductContract.ProductEntry.COLUMN_PICTURE_ID};
 
         // This loader will execute the ContentProvider's query method on a background thread.
         return new CursorLoader(this,                       // Parent activity context

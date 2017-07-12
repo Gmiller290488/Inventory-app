@@ -94,6 +94,12 @@ public class ProductContract {
          */
         public final static String COLUMN_SUPPLIER ="supplier";
 
+        /**
+         * Phone number of supplier
+         * Type: INTEGER
+         */
+        public final static String COLUMN_PHONE ="phone";
+
 
         // Returns where or not the price given is valid
         public static boolean isValidPrice(String price) {

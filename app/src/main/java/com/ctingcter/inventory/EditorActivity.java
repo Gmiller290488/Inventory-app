@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -38,13 +39,13 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private Button mDecrementTen;
     private Button mIncrementTen;
     private Button mIncrementOne;
+    private TextView mPhoneTextView;
+    private EditText mPhoneEditText;
     private EditText mProductEditText;
     private EditText mQuantityEditText;
     private EditText mSupplierEditText;
     private EditText mPriceEditText;
-    private EditText mPhoneNumber;
     private ImageView mProductImageView;
-    private View mOrderMoreTV;
     private Uri mCurrentProductUri;
     private boolean mProductHasChanged = false;
     int quantity;
@@ -59,13 +60,15 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mDecrementTen = (Button) findViewById(R.id.id_decrement_ten_btn);
         mIncrementOne = (Button) findViewById(R.id.id_increment_one_btn);
         mIncrementTen = (Button) findViewById(R.id.id_increment_ten_btn);
-        mOrderMoreTV = (View) findViewById(R.id.order_more_TV);
         // All of the declarations for the EditTexts
+        mPhoneEditText = (EditText) findViewById(R.id.id_phone_ET);
         mProductEditText = (EditText) findViewById(R.id.id_product_EV);
         mPriceEditText = (EditText) findViewById(R.id.id_price_ET);
         mQuantityEditText = (EditText) findViewById(R.id.id_quantity_ET);
         mSupplierEditText = (EditText) findViewById(R.id.id_supplier_ET);
-        mPhoneNumber = (EditText) findViewById(R.id.id_order_num_ET);
+
+
+        mPhoneTextView = (TextView) findViewById(R.id.id_call_supplier);
 
         mProductEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
@@ -91,8 +94,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         Button incrementTen = (Button) findViewById(R.id.id_increment_ten_btn);
         incrementTen.setOnClickListener(this);
 
-        Button order = (Button) findViewById(R.id.id_order_more_btn);
-        order.setOnClickListener(this);
 
         Button picture = (Button) findViewById(R.id.id_picture_btn);
         picture.setOnClickListener(this);
@@ -147,9 +148,17 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         }
         int price = Integer.parseInt(priceString);
 
+        String phoneString = mPhoneEditText.getText().toString().trim();
+        if (phoneString.matches("")) {
+            Toast.makeText(this, "Please enter the supplier phone number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int phone = Integer.parseInt(phoneString);
+
         if (mCurrentProductUri == null &&
                 TextUtils.isEmpty(titleString) && TextUtils.isEmpty(quantityString) &&
-                TextUtils.isEmpty(supplierString) && TextUtils.isEmpty(priceString)) {
+                TextUtils.isEmpty(supplierString) && TextUtils.isEmpty(priceString) &&
+                TextUtils.isEmpty(phoneString)) {
 
             return;
         }
@@ -162,6 +171,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, quantity);
         values.put(ProductContract.ProductEntry.COLUMN_PRICE, price);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, supplierString);
+        values.put(ProductContract.ProductEntry.COLUMN_PHONE, phoneString);
 
         if (mCurrentProductUri == null) {
             // New product so insert a new product into the provider
@@ -248,7 +258,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 if (quantity > 9) {
                     mDecrementTen.setVisibility(View.VISIBLE);
                 }
-                    mDecrementOne.setVisibility(View.VISIBLE);
+                mDecrementOne.setVisibility(View.VISIBLE);
 
                 quantityString = Integer.toString(quantity);
                 mQuantityEditText.setText(quantityString);
@@ -264,11 +274,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 mQuantityEditText.setText(quantityString);
                 return;
 
-            case R.id.id_order_more_btn:
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                String number = mPhoneNumber.getText().toString().trim();
-                intent.setData(Uri.parse("tel:" + number));
-                startActivity(intent);
         }
 
     }
@@ -283,6 +288,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 ProductContract.ProductEntry.COLUMN_PRICE,
                 ProductContract.ProductEntry.COLUMN_SUPPLIER,
                 ProductContract.ProductEntry.COLUMN_QUANTITY,
+                ProductContract.ProductEntry.COLUMN_PHONE,
                 ProductContract.ProductEntry.COLUMN_PICTURE_ID};
 
         // This loader will execute the ContentProvider's query method on a background thread.
@@ -305,18 +311,22 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
             int supplierColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SUPPLIER);
-            //int pictureColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PICTURE_ID);
+            int pictureColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PICTURE_ID);
+            int phoneColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PHONE);
 
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             String quantity = cursor.getString(quantityColumnIndex);
             String supplier = cursor.getString(supplierColumnIndex);
+            String phone = cursor.getString(phoneColumnIndex);
             // Need to implmenet picture
 
             mProductEditText.setText(name);
             mPriceEditText.setText(price);
             mQuantityEditText.setText(quantity);
             mSupplierEditText.setText(supplier);
+            mPhoneTextView.setText(phone);
+            mPhoneEditText.setText(phone);
 
             if (Integer.parseInt(quantity) < 10) {
                 mDecrementTen.setVisibility(View.GONE);
@@ -335,6 +345,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mPriceEditText.setText("");
         mQuantityEditText.setText("");
         mSupplierEditText.setText("");
+        mPhoneEditText.setText("");
+        mPhoneTextView.setText("");
     }
 
     private void showUnsavedChangesDialog(

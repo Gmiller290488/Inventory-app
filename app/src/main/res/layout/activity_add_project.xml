@@ -65,6 +65,13 @@
                 android:hint="Enter Supplier"
                 android:layout_gravity="center"
                 android:id="@+id/id_supplier_ET" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="01613122123"
+                android:hint="Enter Supplier Phone Number"
+                android:layout_gravity="center"
+                android:id="@+id/id_phone_ET" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -73,6 +80,7 @@
                 android:hint="Enter Price"
                 android:layout_gravity="center"
                 android:id="@+id/id_price_ET" />
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -139,17 +147,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Number"
-                    android:id="@+id/id_order_num_ET"/>
+                    android:id="@+id/id_call_supplier"
+                    android:autoLink="phone"
+                    android:linksClickable="true"
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Call"
-                    android:id="@+id/id_order_more_btn"/>
+                    />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
