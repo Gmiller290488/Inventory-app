@@ -1,15 +1,21 @@
 package com.ctingcter.inventory;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -34,6 +40,9 @@ import static com.ctingcter.inventory.R.id.id_decrement_one_btn;
 public class EditorActivity extends AppCompatActivity implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int EXISTING_PRODUCT_LOADER = 0;
+
+    private Uri imageUri;
+
     private Button mDeleteButton;
     private Button mDecrementOne;
     private Button mDecrementTen;
@@ -146,7 +155,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "Please enter the price", Toast.LENGTH_SHORT).show();
             return;
         }
-        int price = Integer.parseInt(priceString);
+        float price = Float.parseFloat(priceString);
+
 
         String phoneString = mPhoneEditText.getText().toString().trim();
         if (phoneString.matches("")) {
@@ -205,6 +215,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
+
+
 
 
     @Override
@@ -273,6 +285,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 quantityString = Integer.toString(quantity);
                 mQuantityEditText.setText(quantityString);
                 return;
+
 
         }
 

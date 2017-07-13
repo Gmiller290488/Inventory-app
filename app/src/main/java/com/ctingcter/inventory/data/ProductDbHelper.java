@@ -13,11 +13,11 @@ public class ProductDbHelper extends SQLiteOpenHelper {
     public static final String LOG_TAG = ProductDbHelper.class.getSimpleName();
 
     // Name of the database file
-    private static final String DATABASE_NAME = "products.db";
+    private static final String DATABASE_NAME = "product.db";
 
     // Database version.  If you change the database schema, you must increment
     // the database version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     /**
      * Construacts a new instance of {@link ProductDbHelper}
@@ -36,7 +36,7 @@ public class ProductDbHelper extends SQLiteOpenHelper {
                 + ProductContract.ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + ProductContract.ProductEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
                 + ProductContract.ProductEntry.COLUMN_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
-                + ProductContract.ProductEntry.COLUMN_PRICE + " TEXT, "
+                + ProductContract.ProductEntry.COLUMN_PRICE + " DECIMAL(12,2) DEFAULT 0, "
                 + ProductContract.ProductEntry.COLUMN_PICTURE_ID + " TEXT, "
                 + ProductContract.ProductEntry.COLUMN_PHONE + " INTEGER NOT NULL, "
                 + ProductContract.ProductEntry.COLUMN_SUPPLIER + " TEXT NOT NULL);";

@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ContentValues values = new ContentValues();
         values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, "Sirloin Steak");
         values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, "10");
-        values.put(ProductContract.ProductEntry.COLUMN_PRICE, "£3.99");
+        values.put(ProductContract.ProductEntry.COLUMN_PRICE, "3.99");
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, "British Premier Meats");
         values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, "@drawable/placeholder");
         values.put(ProductContract.ProductEntry.COLUMN_PHONE, "01613718991");
