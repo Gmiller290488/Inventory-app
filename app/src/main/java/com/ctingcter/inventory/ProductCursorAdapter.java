@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ctingcter.inventory.data.ProductContract;
+import com.ctingcter.inventory.data.ProductDbHelper;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -56,10 +57,14 @@ public class ProductCursorAdapter extends CursorAdapter {
      *                correct row.
      */
     @Override
-    public void bindView(View view, final Context context, Cursor cursor) {
+    public void bindView(final View view, final Context context, final Cursor cursor) {
+        final int itemId = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
+        final int ProductQuantity = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY));
+
+
         // Find individual views that we want to modify in the list item layout
         TextView productTextView = (TextView) view.findViewById(R.id.id_product_TV);
-        final TextView quantityTextView = (TextView) view.findViewById(R.id.id_quantity_TV);
+        TextView quantityTextView = (TextView) view.findViewById(R.id.id_quantity_TV);
         TextView priceTextView = (TextView) view.findViewById(R.id.id_price_TV);
 
 
@@ -71,41 +76,51 @@ public class ProductCursorAdapter extends CursorAdapter {
 
         // Read the pet attributes from the Cursor for the current pet
         String productName = cursor.getString(productColumnIndex);
-        final String productQuantity = cursor.getString(quantityColumnIndex);
+        String productQuantity = cursor.getString(quantityColumnIndex);
         String price = cursor.getString(priceColumnIndex);
 
-        rowId = cursor.getInt(rowColumnIndex);
-        quantity = cursor.getInt(quantityColumnIndex);
         // Update the TextViews with the attributes for the current pet
         productTextView.setText(productName);
         quantityTextView.setText(productQuantity);
         priceTextView.setText(price);
 
         Button sell = (Button) view.findViewById(R.id.id_sell_Btn);
+
         sell.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (quantity == 0) {
-                    Toast toast = Toast.makeText(context, "There are no more of this item", Toast.LENGTH_SHORT);
-                    toast.show();
-
-                    return;
-
-                } else {
-                    quantity--;
-                    ContentValues values = new ContentValues();
-                    values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, quantity);
-                    Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, rowId);
-                    int rowsUpdated = context.getContentResolver().update(newUri, values, null, null);
-                    quantityTextView.setText(String.valueOf(quantity));
-
-
+                ContentValues values = new ContentValues();
+                if (ProductQuantity > 0) {
+                    int mProductQuantity;
+                    mProductQuantity = (ProductQuantity - 1);
+                    values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, mProductQuantity);
+                    Uri uri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, itemId);
+                    context.getContentResolver().update(uri, values, null, null);
                 }
+                context.getContentResolver().notifyChange(ProductContract.ProductEntry.CONTENT_URI, null);
+
+//                if (quantity == 0) {
+//                    Toast toast = Toast.makeText(context, "There are no more of this item", Toast.LENGTH_SHORT);
+//                    toast.show();
+//
+//                    return;
+//
+//                } else {
+//                    quantity--;
+//                    ContentValues values = new ContentValues();
+//                    values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, quantity);
+//                    Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, rowId);
+//                    int rowsUpdated = context.getContentResolver().update(newUri, values, null, null);
+//                    quantityTextView.setText(String.valueOf(quantity));
+//
+//
+//                }
             }
         });
-
     }
+
+
 
 
 }
