@@ -5,12 +5,14 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,23 +68,29 @@ public class ProductCursorAdapter extends CursorAdapter {
         TextView productTextView = (TextView) view.findViewById(R.id.id_product_TV);
         TextView quantityTextView = (TextView) view.findViewById(R.id.id_quantity_TV);
         TextView priceTextView = (TextView) view.findViewById(R.id.id_price_TV);
-
+        ImageView pictureImageView = (ImageView) view.findViewById(R.id.id_product_image);
 
         // Find the columns of pet attributes that we're interested in
         int productColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
         int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
         int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE);
         int rowColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry._ID);
+        int pictureImageIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PICTURE_ID);
+
 
         // Read the pet attributes from the Cursor for the current pet
         String productName = cursor.getString(productColumnIndex);
         String productQuantity = cursor.getString(quantityColumnIndex);
         String price = cursor.getString(priceColumnIndex);
+        String imageUriString = cursor.getString(pictureImageIndex);
+
+        Uri imageUri = Uri.parse(imageUriString);
 
         // Update the TextViews with the attributes for the current pet
         productTextView.setText(productName);
         quantityTextView.setText(productQuantity);
         priceTextView.setText(price);
+        pictureImageView.setImageURI(imageUri);
 
         Button sell = (Button) view.findViewById(R.id.id_sell_Btn);
 
