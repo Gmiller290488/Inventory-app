@@ -75,7 +75,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mPriceEditText = (EditText) findViewById(R.id.id_price_ET);
         mQuantityEditText = (EditText) findViewById(R.id.id_quantity_ET);
         mSupplierEditText = (EditText) findViewById(R.id.id_supplier_ET);
-
+        mProductImageView = (ImageView) findViewById(R.id.id_product_image_IV);
 
         mPhoneTextView = (TextView) findViewById(R.id.id_call_supplier);
 
@@ -121,6 +121,43 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
+    }
+
+    private void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        } else {
+            chooseImage();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                chooseImage();
+            }
+        }
+    }
+
+    private void chooseImage() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+
+        startActivityForResult(Intent.createChooser(intent, "Choose image"), 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                imageUri = data.getData();
+                mProductImageView.setImageURI(imageUri);
+                mProductImageView.invalidate();
+            }
+        }
     }
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -182,6 +219,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         values.put(ProductContract.ProductEntry.COLUMN_PRICE, price);
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, supplierString);
         values.put(ProductContract.ProductEntry.COLUMN_PHONE, phoneString);
+        values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, imageUri.toString());
 
         if (mCurrentProductUri == null) {
             // New product so insert a new product into the provider
@@ -286,7 +324,8 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                 mQuantityEditText.setText(quantityString);
                 return;
 
-
+            case R.id.id_picture_btn:
+                checkPermissions();
         }
 
     }
@@ -324,22 +363,26 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_QUANTITY);
             int supplierColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_SUPPLIER);
-            int pictureColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PICTURE_ID);
             int phoneColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PHONE);
+            int pictureColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PICTURE_ID);
+
 
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             String quantity = cursor.getString(quantityColumnIndex);
             String supplier = cursor.getString(supplierColumnIndex);
             String phone = cursor.getString(phoneColumnIndex);
-            // Need to implmenet picture
+            String imageUriString = cursor.getString(pictureColumnIndex);
+            imageUri = Uri.parse(imageUriString);
 
+            mProductImageView.setImageURI(imageUri);
             mProductEditText.setText(name);
             mPriceEditText.setText(price);
             mQuantityEditText.setText(quantity);
             mSupplierEditText.setText(supplier);
             mPhoneTextView.setText(phone);
             mPhoneEditText.setText(phone);
+
 
             if (Integer.parseInt(quantity) < 10) {
                 mDecrementTen.setVisibility(View.GONE);
@@ -360,6 +403,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mSupplierEditText.setText("");
         mPhoneEditText.setText("");
         mPhoneTextView.setText("");
+
     }
 
     private void showUnsavedChangesDialog(
