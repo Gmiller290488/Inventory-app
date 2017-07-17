@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.LoaderManager;
@@ -174,10 +175,14 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, "Please enter the product name", Toast.LENGTH_SHORT).show();
             return;
         }
+
         String quantityString = mQuantityEditText.getText().toString().trim();
+        boolean digitsOnly = TextUtils.isDigitsOnly(mQuantityEditText.getText());
         if (quantityString.matches("")) {
             quantityString = "0";
+
         }
+
         int quantity = Integer.parseInt(quantityString);
 
 
@@ -248,8 +253,11 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the update was successful and we can display a toast.
-                Toast.makeText(this, "Product updated",
-                        Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(this, "Product updated",
+             //           Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(this, "imageURI is" + imageUri, Toast.LENGTH_LONG).show();
+
             }
         }
     }

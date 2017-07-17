@@ -52,11 +52,12 @@
         </LinearLayout>
 
         <Button
+            android:layout_gravity="center"
             android:id="@+id/id_sell_Btn"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            tools:text="Sell"/>
+            android:text="Sell"/>
         </LinearLayout>
 
 </RelativeLayout>

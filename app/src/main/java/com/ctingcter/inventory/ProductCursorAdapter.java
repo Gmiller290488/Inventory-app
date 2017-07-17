@@ -107,12 +107,12 @@ public class ProductCursorAdapter extends CursorAdapter {
                     context.getContentResolver().update(uri, values, null, null);
                 }
                 context.getContentResolver().notifyChange(ProductContract.ProductEntry.CONTENT_URI, null);
+                if (ProductQuantity == 0)
+                    {
+                    Toast toast = Toast.makeText(context, "There are no more of this item", Toast.LENGTH_SHORT);
+                    toast.show();
 
-//                if (quantity == 0) {
-//                    Toast toast = Toast.makeText(context, "There are no more of this item", Toast.LENGTH_SHORT);
-//                    toast.show();
-//
-//                    return;
+                    return;
 //
 //                } else {
 //                    quantity--;
@@ -124,6 +124,7 @@ public class ProductCursorAdapter extends CursorAdapter {
 //
 //
 //                }
+                }
             }
         });
     }

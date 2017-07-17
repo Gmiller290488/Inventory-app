@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,12 +37,12 @@
             android:layout_marginRight="@dimen/half_horizontal_margin"/>
 
             <Button
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose picture"
                 android:id="@+id/id_picture_btn"/>
-            </RelativeLayout>
+            </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,6 +51,7 @@
 
 
             <EditText
+                android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Quantity"
@@ -66,6 +67,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/id_supplier_ET" />
             <EditText
+                android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="01613122123"
@@ -79,7 +81,8 @@
                 tools:text="£3.40"
                 android:hint="Enter Price"
                 android:layout_gravity="center"
-                android:id="@+id/id_price_ET" />
+                android:id="@+id/id_price_ET"
+                android:inputType="numberDecimal"/>
 
             <LinearLayout
                 android:orientation="vertical"

@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, "10");
         values.put(ProductContract.ProductEntry.COLUMN_PRICE, "3.99");
         values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, "British Premier Meats");
-        values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, "@drawable/placeholder");
+        values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, "android.resource://com.ctingcter.inventory/drawable/placeholder");
         values.put(ProductContract.ProductEntry.COLUMN_PHONE, "01613718991");
 
         Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        // Define a projection thath specifies the colums from the table that we care about
+        // Define a projection that specifies the colums from the table that we care about
         String[] projection = {
                 ProductContract.ProductEntry._ID,
                 ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,

@@ -148,13 +148,11 @@ public class ProductProvider extends ContentProvider {
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
-            if (name == null) {
+            if (name == "") {
                 throw new IllegalArgumentException("Product requires a name");
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_GENDER} key is present,
-        // check that the gender value is valid.
         if (values.containsKey(ProductEntry.COLUMN_SUPPLIER)) {
             String supplier = values.getAsString(ProductEntry.COLUMN_SUPPLIER);
             if (supplier == null) {
@@ -162,10 +160,9 @@ public class ProductProvider extends ContentProvider {
             }
         }
 
-        // If the {@link PetEntry#COLUMN_PET_WEIGHT} key is present,
-        // check that the weight value is valid.
+
         if (values.containsKey(ProductEntry.COLUMN_QUANTITY)) {
-            // Check that the weight is greater than or equal to 0 kg
+
             Integer quantity = values.getAsInteger(ProductEntry.COLUMN_QUANTITY);
             if (quantity != null && quantity < 0) {
                 throw new IllegalArgumentException("Product requires valid quantity");
