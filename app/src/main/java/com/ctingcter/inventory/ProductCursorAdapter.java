@@ -109,21 +109,10 @@ public class ProductCursorAdapter extends CursorAdapter {
                 context.getContentResolver().notifyChange(ProductContract.ProductEntry.CONTENT_URI, null);
                 if (ProductQuantity == 0)
                     {
-                    Toast toast = Toast.makeText(context, "There are no more of this item", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(context, R.string.no_more_in_stock, Toast.LENGTH_SHORT);
                     toast.show();
 
                     return;
-//
-//                } else {
-//                    quantity--;
-//                    ContentValues values = new ContentValues();
-//                    values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, quantity);
-//                    Uri newUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, rowId);
-//                    int rowsUpdated = context.getContentResolver().update(newUri, values, null, null);
-//                    quantityTextView.setText(String.valueOf(quantity));
-//
-//
-//                }
                 }
             }
         });

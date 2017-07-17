@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <EditText
+        android:id="@+id/id_product_EV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Product name"
         android:layout_margin="@dimen/double_horizontal_margin"
-        android:id="@+id/id_product_EV"
-        />
+        android:hint="Product name" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,30 +18,31 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
 
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/id_product_image_IV"
-            android:background="@drawable/placeholder"
-            android:layout_marginTop="@dimen/double_vertical_margin"
-            android:layout_marginLeft="@dimen/half_horizontal_margin"
-            android:layout_marginRight="@dimen/half_horizontal_margin"/>
+            <ImageView
+                android:id="@+id/id_product_image_IV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/half_horizontal_margin"
+                android:layout_marginRight="@dimen/half_horizontal_margin"
+                android:layout_marginTop="@dimen/double_vertical_margin"
+                android:layout_weight="1"
+                android:background="@drawable/placeholder" />
 
             <Button
-                android:layout_gravity="center"
+                android:id="@+id/id_picture_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose picture"
-                android:id="@+id/id_picture_btn"/>
-            </LinearLayout>
+                android:layout_gravity="center"
+                android:text="Choose picture" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,135 +51,138 @@
 
 
             <EditText
-                android:inputType="number"
+                android:id="@+id/id_quantity_ET"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Quantity"
+
                 android:hint="Enter Quantity"
-                android:layout_gravity="center"
-                android:id="@+id/id_quantity_ET" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Supplier"
-                android:hint="Enter Supplier"
-                android:layout_gravity="center"
-                android:id="@+id/id_supplier_ET" />
-            <EditText
                 android:inputType="number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="01613122123"
-                android:hint="Enter Supplier Phone Number"
-                android:layout_gravity="center"
-                android:id="@+id/id_phone_ET" />
+                tools:text="Quantity" />
 
             <EditText
+                android:id="@+id/id_supplier_ET"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="£3.40"
-                android:hint="Enter Price"
-                android:layout_gravity="center"
+
+                android:hint="Enter Supplier"
+                tools:text="Supplier" />
+
+            <EditText
+                android:id="@+id/id_phone_ET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:hint="Enter Supplier Phone Number"
+                android:inputType="number"
+                tools:text="01613122123" />
+
+            <EditText
                 android:id="@+id/id_price_ET"
-                android:inputType="numberDecimal"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:hint="Enter Price"
+                android:inputType="numberDecimal"
+                tools:text="£3.40" />
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/order_more_TV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/order_more_TV">
-            <TextView
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/id_sell_TV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sell"
-                android:id="@+id/id_sell_TV"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:text="Sell" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/id_decrement_one_btn"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
+                        android:text="-1" />
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-1"
-                            android:id="@+id/id_decrement_one_btn"/>
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="-10"
-                            android:id="@+id/id_decrement_ten_btn"/>
-                    </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Buy"
-                            android:layout_gravity="center"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="+1"
-                                android:id="@+id/id_increment_one_btn"/>
-
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="+10"
-                                android:id="@+id/id_increment_ten_btn"/>
-                        </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Order"
-                android:layout_gravity="center"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/id_decrement_ten_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-10" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/id_call_supplier"
-                    android:autoLink="phone"
-                    android:linksClickable="true"
+                    android:layout_gravity="center"
+                    android:text="Buy" />
 
-                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/id_increment_one_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+1" />
+
+                    <Button
+                        android:id="@+id/id_increment_ten_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+10" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Order" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/id_call_supplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="phone"
+                        android:linksClickable="true"
+
+                        />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
-    <Button
-        android:id="@+id/id_save_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Save Product" />
 
-    <Button
-        android:id="@+id/id_delete_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Delete Product" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/id_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save Product" />
+
+        <Button
+            android:id="@+id/id_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Delete Product" />
+    </LinearLayout>
 </LinearLayout>

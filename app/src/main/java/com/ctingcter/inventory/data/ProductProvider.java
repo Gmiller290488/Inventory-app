@@ -1,8 +1,12 @@
 package com.ctingcter.inventory.data;
+
+import com.ctingcter.inventory.R;
 import com.ctingcter.inventory.data.ProductContract.ProductEntry;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,15 +21,22 @@ public class ProductProvider extends ContentProvider {
     // Database helper object
     private ProductDbHelper mDbHelper;
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
-    /** URI matcher code for the content URI for the products table */
+    /**
+     * URI matcher code for the content URI for the products table
+     */
     private static final int PRODUCTS = 100;
 
-    /** URI matcher code for the content URI for a single product in the products table */
+    /**
+     * URI matcher code for the content URI for a single product in the products table
+     */
     private static final int PRODUCT_ID = 101;
 
+    private Context mContext;
     /**
      * UriMatcher object to match a content URI to a corresponding code.
      * The input passed into the constructor represents the code to return for the root URI.
@@ -71,7 +82,7 @@ public class ProductProvider extends ContentProvider {
                 break;
             case PRODUCT_ID:
                 selection = ProductEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(ProductEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
@@ -90,7 +101,7 @@ public class ProductProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         final int match = sUriMatcher.match(uri);
-        switch(match) {
+        switch (match) {
             case PRODUCTS:
                 return insertProduct(uri, contentValues);
             default:
@@ -118,7 +129,6 @@ public class ProductProvider extends ContentProvider {
     }
 
 
-
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
@@ -132,7 +142,7 @@ public class ProductProvider extends ContentProvider {
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = ProductEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 getContext().getContentResolver().notifyChange(uri, null);
                 return updateProduct(uri, contentValues, selection, selectionArgs);
             default:
@@ -149,14 +159,14 @@ public class ProductProvider extends ContentProvider {
         if (values.containsKey(ProductEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(ProductEntry.COLUMN_PRODUCT_NAME);
             if (name == "") {
-                throw new IllegalArgumentException("Product requires a name");
+                throw new IllegalArgumentException(mContext.getString(R.string.error_needs_name));
             }
         }
 
         if (values.containsKey(ProductEntry.COLUMN_SUPPLIER)) {
             String supplier = values.getAsString(ProductEntry.COLUMN_SUPPLIER);
             if (supplier == null) {
-                throw new IllegalArgumentException("Product requires a supplier");
+                throw new IllegalArgumentException(mContext.getString(R.string.error_need_supplier));
             }
         }
 
@@ -165,7 +175,7 @@ public class ProductProvider extends ContentProvider {
 
             Integer quantity = values.getAsInteger(ProductEntry.COLUMN_QUANTITY);
             if (quantity != null && quantity < 0) {
-                throw new IllegalArgumentException("Product requires valid quantity");
+                throw new IllegalArgumentException(mContext.getString(R.string.error_need_quantity));
             }
         }
 
@@ -173,7 +183,7 @@ public class ProductProvider extends ContentProvider {
 
             Float price = values.getAsFloat(ProductEntry.COLUMN_PRICE);
             if (price != null && price < 0) {
-                throw new IllegalArgumentException("Product requires valid price");
+                throw new IllegalArgumentException(mContext.getString(R.string.error_need_price));
             }
         }
 
@@ -206,16 +216,17 @@ public class ProductProvider extends ContentProvider {
                 return database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
             case PRODUCT_ID:
                 selection = ProductEntry._ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 getContext().getContentResolver().notifyChange(uri, null);
                 return database.delete(ProductEntry.TABLE_NAME, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+                throw new IllegalArgumentException(mContext.getString(R.string.deletion_not_supported) + uri);
 
         }
 
 
     }
+
     /**
      * Returns the MIME type of data for the content URI.
      */
@@ -228,7 +239,7 @@ public class ProductProvider extends ContentProvider {
             case PRODUCT_ID:
                 return ProductEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+                throw new IllegalStateException(mContext.getString(R.string.unknown_uri) + uri + mContext.getString(R.string.with_match) + match);
         }
     }
 }

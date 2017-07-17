@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,8 +10,7 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        />
+        android:gravity="center" />
     <!-- Empty view for the list -->
     <RelativeLayout
         android:id="@+id/empty_view"
@@ -28,21 +26,21 @@
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
             android:text="There are no products to display! Click the button in the bottom corner to add a product."
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:textAppearance="?android:textAppearanceMedium" />
 
     </RelativeLayout>
 
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/id_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/double_horizontal_margin"
         android:layout_marginBottom="@dimen/double_vertical_margin"
-        android:src="@android:drawable/ic_input_add"
+        android:layout_marginRight="@dimen/double_horizontal_margin"
         android:elevation="@dimen/half_vertical_margin"
-        android:id="@+id/id_fab"/>
+        android:src="@android:drawable/ic_input_add" />
 
 
-    </RelativeLayout>
+</RelativeLayout>

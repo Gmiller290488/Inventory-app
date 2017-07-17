@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?android:listPreferredItemHeight"
-        android:orientation="horizontal"
-        android:descendantFocusability="blocksDescendants"    >
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Product Name"
-            android:id="@+id/id_product_TV"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/id_product_image"
-                android:src="@drawable/placeholder"/>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/id_product_TV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/half_vertical_padding"
+                tools:text="Product Name" />
+
+            <ImageView
+                android:id="@+id/id_product_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/placeholder" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/half_vertical_padding">
+
             <TextView
                 android:id="@+id/id_quantity_TV"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                tools:text="Quantity"
-                />
+                tools:text="Quantity" />
 
             <TextView
                 android:id="@+id/id_price_TV"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                tools:text="Price"/>
+                tools:text="Price" />
 
         </LinearLayout>
 
         <Button
-            android:layout_gravity="center"
             android:id="@+id/id_sell_Btn"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="Sell"/>
-        </LinearLayout>
+            android:text="Sell" />
+    </LinearLayout>
 
 </RelativeLayout>

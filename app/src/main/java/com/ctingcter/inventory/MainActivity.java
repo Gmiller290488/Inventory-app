@@ -29,7 +29,7 @@ import java.net.URI;
 
 import static com.ctingcter.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>  {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private TextView mEmptyStateTextView;
     private static final int PRODUCT_LOADER = 0;
@@ -84,27 +84,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
 
-
-
     private void insertProduct() {
 
         // Create a ContentValues object where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, "Sirloin Steak");
-        values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, "10");
-        values.put(ProductContract.ProductEntry.COLUMN_PRICE, "3.99");
-        values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, "British Premier Meats");
-        values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, "android.resource://com.ctingcter.inventory/drawable/placeholder");
-        values.put(ProductContract.ProductEntry.COLUMN_PHONE, "01613718991");
+        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, getString(R.string.dummy_name));
+        values.put(ProductContract.ProductEntry.COLUMN_QUANTITY, getString(R.string.dummy_quantity));
+        values.put(ProductContract.ProductEntry.COLUMN_PRICE, getString(R.string.dummy_price));
+        values.put(ProductContract.ProductEntry.COLUMN_SUPPLIER, getString(R.string.dummy_supplier));
+        values.put(ProductContract.ProductEntry.COLUMN_PICTURE_ID, getString(R.string.dummy_image));
+        values.put(ProductContract.ProductEntry.COLUMN_PHONE, getString(R.string.dummy_number));
 
         Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
 
     }
 
     private void deleteAllProducts() {
-       int rowsDeleted = getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
-        Log.v("MainActivity", rowsDeleted + " rows deleted from product database");
-
+        int rowsDeleted = getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
     }
 
     @Override

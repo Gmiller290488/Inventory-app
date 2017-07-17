@@ -112,7 +112,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         mCurrentProductUri = intent.getData();
 
 
-
         if (mCurrentProductUri == null) {
             setTitle(getString(R.string.editor_activity_title_new_product));
             delete.setVisibility(View.GONE);
@@ -147,7 +146,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
 
-        startActivityForResult(Intent.createChooser(intent, "Choose image"), 0);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_image)), 0);
     }
 
     @Override
@@ -172,7 +171,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private void saveProduct() {
         String titleString = mProductEditText.getText().toString().trim();
         if (titleString.matches("")) {
-            Toast.makeText(this, "Please enter the product name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.enter_product_name, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -188,13 +187,13 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
         String supplierString = mSupplierEditText.getText().toString().trim();
         if (supplierString.matches("")) {
-            Toast.makeText(this, "Please enter the supplier name", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.enter_supplier_name, Toast.LENGTH_SHORT).show();
             return;
         }
 
         String priceString = mPriceEditText.getText().toString().trim();
         if (priceString.matches("")) {
-            Toast.makeText(this, "Please enter the price", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.enter_price, Toast.LENGTH_SHORT).show();
             return;
         }
         float price = Float.parseFloat(priceString);
@@ -202,7 +201,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
         String phoneString = mPhoneEditText.getText().toString().trim();
         if (phoneString.matches("")) {
-            Toast.makeText(this, "Please enter the supplier phone number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.enter_phone_number, Toast.LENGTH_SHORT).show();
             return;
         }
         int phone = Integer.parseInt(phoneString);
@@ -233,10 +232,10 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             //  Show a toast message depending on whether or not the insertion was successful
             if (newUri == null) {
                 //    If the newUri is null, then there was an error with insertion.
-                Toast.makeText(this, "Error with saving product", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.error_saving_product, Toast.LENGTH_SHORT).show();
             } else {
                 //      Otherwise, the insertion was successful and we can display a toast.
-                Toast.makeText(this, "Product saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.product_saved, Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -249,20 +248,17 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             // Show a toast message depending on whether or not the update was successful.
             if (rowsAffected == 0) {
                 // If no rows were affected, then there was an error with the update.
-                Toast.makeText(this, "Error with updating product",
+                Toast.makeText(this, R.string.error_update,
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the update was successful and we can display a toast.
-             //   Toast.makeText(this, "Product updated",
-             //           Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.product_updated,
+                        Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(this, "imageURI is" + imageUri, Toast.LENGTH_LONG).show();
 
             }
         }
     }
-
-
 
 
     @Override
@@ -339,7 +335,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {
@@ -398,8 +393,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             if (Integer.parseInt(quantity) == 0) {
                 mDecrementOne.setVisibility(View.GONE);
             }
-
-
         }
     }
 
@@ -419,9 +412,9 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("There are unsaved changes, do you want to exit?");
-        builder.setPositiveButton("Yes, exit without saving", discardButtonClickListener);
-        builder.setNegativeButton("No, I'm not finished", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.unsaved_changes);
+        builder.setPositiveButton(R.string.exit, discardButtonClickListener);
+        builder.setNegativeButton(R.string.dont_exit, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
                 // and continue editing the pet.
@@ -463,14 +456,14 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete this product?");
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.delete_Q);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the product.
                 deleteProduct();
             }
         });
-        builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
                 // and continue editing the product.
@@ -499,11 +492,11 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             // Show a toast message depending on whether or not the delete was successful.
             if (rowsDeleted == 0) {
                 // If no rows were deleted, then there was an error with the delete.
-                Toast.makeText(this, ("Failed to delete product"),
+                Toast.makeText(this, (getString(R.string.failed_delete)),
                         Toast.LENGTH_SHORT).show();
             } else {
                 // Otherwise, the delete was successful and we can display a toast.
-                Toast.makeText(this, ("Product deleted successfully"),
+                Toast.makeText(this, (getString(R.string.success_delete)),
                         Toast.LENGTH_SHORT).show();
             }
             finish();

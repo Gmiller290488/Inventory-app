@@ -21,6 +21,7 @@ public class ProductDbHelper extends SQLiteOpenHelper {
 
     /**
      * Construacts a new instance of {@link ProductDbHelper}
+     *
      * @param context of the app
      */
     public ProductDbHelper(Context context) {
