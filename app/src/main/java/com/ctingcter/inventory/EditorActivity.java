@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.LoaderManager;
@@ -15,11 +14,9 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,8 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.ctingcter.inventory.data.ProductContract;
 
 import static com.ctingcter.inventory.R.id.id_decrement_one_btn;
@@ -44,7 +39,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
 
     private Uri imageUri;
 
-    private Button mDeleteButton;
     private Button mDecrementOne;
     private Button mDecrementTen;
     private Button mIncrementTen;
@@ -58,7 +52,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     private ImageView mProductImageView;
     private Uri mCurrentProductUri;
     private boolean mProductHasChanged = false;
-    int quantity;
 
 
     @Override
@@ -92,19 +85,10 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         Button delete = (Button) findViewById(R.id.id_delete_btn);
         delete.setOnClickListener(this);
 
-        Button decrementOne = (Button) findViewById(id_decrement_one_btn);
-        decrementOne.setOnClickListener(this);
-
-        Button decrementTen = (Button) findViewById(R.id.id_decrement_ten_btn);
-        decrementTen.setOnClickListener(this);
-
-        Button incrementOne = (Button) findViewById(R.id.id_increment_one_btn);
-        incrementOne.setOnClickListener(this);
-
-        Button incrementTen = (Button) findViewById(R.id.id_increment_ten_btn);
-        incrementTen.setOnClickListener(this);
-
-
+        mDecrementOne.setOnClickListener(this);
+        mDecrementTen.setOnClickListener(this);
+        mIncrementOne.setOnClickListener(this);
+        mIncrementTen.setOnClickListener(this);
         Button picture = (Button) findViewById(R.id.id_picture_btn);
         picture.setOnClickListener(this);
 
@@ -145,7 +129,6 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-
         startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_image)), 0);
     }
 
@@ -169,6 +152,7 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
     };
 
     private void saveProduct() {
+
         String titleString = mProductEditText.getText().toString().trim();
         if (titleString.matches("")) {
             Toast.makeText(this, R.string.enter_product_name, Toast.LENGTH_SHORT).show();
@@ -204,7 +188,11 @@ public class EditorActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText(this, R.string.enter_phone_number, Toast.LENGTH_SHORT).show();
             return;
         }
-        int phone = Integer.parseInt(phoneString);
+
+        if (imageUri.toString().matches("")) {
+            Toast.makeText(this, R.string.choose_picture, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (mCurrentProductUri == null &&
                 TextUtils.isEmpty(titleString) && TextUtils.isEmpty(quantityString) &&

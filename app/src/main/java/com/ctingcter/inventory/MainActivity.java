@@ -4,34 +4,23 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
-
 import com.ctingcter.inventory.data.ProductContract;
-
-import java.net.URI;
-
-import static com.ctingcter.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private TextView mEmptyStateTextView;
     private static final int PRODUCT_LOADER = 0;
 
     ProductCursorAdapter mCursorAdapter;
@@ -45,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_title_text);
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_fab);

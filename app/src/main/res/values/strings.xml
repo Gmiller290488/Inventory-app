@@ -35,4 +35,5 @@
     <string name="dummy_image">android.resource://com.ctingcter.inventory/drawable/placeholder</string>
     <string name="dummy_number">01613718991</string>
     <string name="no_more_in_stock">There are no more of this item</string>
+    <string name="choose_picture">Please choose a picture</string>
 </resources>
